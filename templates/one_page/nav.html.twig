@@ -1,0 +1,70 @@
+
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+    <a class="navbar-brand nav-link" href="{{ path('accueil') }}">Accueil</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('app_register') }}">S'inscrire</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('carte_new') }}">Ajouter une carte</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('carte_index') }}">Liste des cartes</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('faction_new') }}">Ajouter une faction</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('faction_index') }}">Liste des factions</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('type_new') }}">Ajouter un type</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('type_index') }}">Liste des types</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div id="pageContent"></div>
+
+{% block javascripts %}
+
+    <script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('.nav-link').click(function (e) {
+            e.preventDefault();
+            $('.nav-link').removeClass('select');
+            $(this).addClass('select');
+            $("#pageContent").load($(this).attr('href'));
+        });
+
+        $('#pageContent').on('submit', 'form', function (e) {
+            e.preventDefault();
+            var form = $(this);
+
+
+            $.ajax({
+                type: "POST",
+                url: form.attr('action'),
+                data: new FormData(this),
+                contentType: false,
+                processData: false,
+                success: function success(response) {
+                    $("#pageContent").load($('.select').attr('href'));
+                }
+            })
+        })
+    });
+
+    </script>
+
+{% endblock %}

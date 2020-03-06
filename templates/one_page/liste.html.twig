@@ -1,0 +1,100 @@
+
+{% block body %}
+
+	{% if cartes is defined %}
+	    <h1>{{ titre }}</h1>
+        <table class="table">
+	        <thead>
+	            <tr>
+	                <th>Titre</th>
+	                <th>Description</th>
+	                <th>PV</th>
+	                <th>Armure</th>
+	                <th>Attaque</th>
+	                <th>actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for carte in cartes %}
+	            <tr>
+	                <td>{{ carte.titre }}</td>
+	                <td>{{ carte.description }}</td>
+	                <td>{{ carte.PV }}</td>
+	                <td>{{ carte.armure }}</td>
+	                <td>{{ carte.attaque }}</td>
+	                <td>
+	                    <a href="{{ path('carte_show', {'id': carte.id}) }}">show</a>
+	                    <a href="{{ path('carte_edit', {'id': carte.id}) }}">edit</a>
+	                </td>
+	            </tr>
+	        {% else %}
+	            <tr>
+	                <td colspan="7">no records found</td>
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+    <a href="{{ path('carte_new') }}">Create new</a>
+	{% endif %}
+
+	{% if factions is defined %}
+		<h1>{{ titre }}</h1>
+		<table class="table">
+	        <thead>
+	            <tr>
+	                <th>Titre</th>
+	                <th>Description</th>
+	                <th>actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for faction in factions %}
+	            <tr>
+	                <td>{{ faction.titre }}</td>
+	                <td>{{ faction.description }}</td>
+	                <td>
+	                    <a href="{{ path('faction_show', {'id': faction.id}) }}">show</a>
+	                    <a href="{{ path('faction_edit', {'id': faction.id}) }}">edit</a>
+	                </td>
+	            </tr>
+	        {% else %}
+	            <tr>
+	                <td colspan="4">no records found</td>
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+    <a href="{{ path('faction_new') }}">Create new</a>
+	{% endif %}
+
+	{% if types is defined %}
+		<h1>{{ titre }}</h1>
+		<table class="table">
+	        <thead>
+	            <tr>
+	                <th>Titre</th>
+	                <th>Description</th>
+	                <th>actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        {% for type in types %}
+	            <tr>
+	                <td>{{ type.titre }}</td>
+	                <td>{{ type.description }}</td>
+	                <td>
+	                    <a href="{{ path('type_show', {'id': type.id}) }}">show</a>
+	                    <a href="{{ path('type_edit', {'id': type.id}) }}">edit</a>
+	                </td>
+	            </tr>
+	        {% else %}
+	            <tr>
+	                <td colspan="4">no records found</td>
+	            </tr>
+	        {% endfor %}
+	        </tbody>
+	    </table>
+    <a href="{{ path('type_new') }}">Create new</a>
+	{% endif %}
+
+{% endblock %}

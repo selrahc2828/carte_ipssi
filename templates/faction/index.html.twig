@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Faction index{% endblock %}
+
+{% block body %}
+    <h1>Faction index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for faction in factions %}
+            <tr>
+                <td>{{ faction.titre }}</td>
+                <td>{{ faction.description }}</td>
+                <td>
+                    <a href="{{ path('faction_show', {'id': faction.id}) }}">show</a>
+                    <a href="{{ path('faction_edit', {'id': faction.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('faction_new') }}">Create new</a>
+{% endblock %}
