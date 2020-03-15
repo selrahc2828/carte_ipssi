@@ -33,3 +33,5 @@ UTILISATEURS :
 	- Inscription
 	- Connexion
 	- Déconnexion
+	
+La bdd est le fichier nommé BDD_carte.sql
