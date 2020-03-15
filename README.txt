@@ -34,4 +34,4 @@ UTILISATEURS :
 	- Connexion
 	- Déconnexion
 	
-La bdd est le fichier nommé BDD_carte.sql
+La bdd est le fichier nommé db_ipssi_carte.sql
