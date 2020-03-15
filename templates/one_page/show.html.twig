@@ -1,0 +1,117 @@
+{% block body %}
+
+	{% if carte is defined %}
+		<h1>{{ titre }}</h1>
+		<table class="table">
+			<tbody>
+				<tr>
+					<td>
+			            <div class="card">
+						    <div class="cardHeader">
+						        <div class="cardNumber" style="color:green"> {{ carte.pv }} </div>
+						        <div class="cardTitle"> {{ carte.titre }} </div>
+						        <div class="cardNumber" style="color:grey"> {{ carte.armure }} </div>
+						    </div>
+						    <div class="cardImage" style="
+						    	background-image:url('{{ asset('uploads/cartes/'~carte.image) }}');
+						    "></div>
+						    <div class="cardDescription">
+						    	{{ carte.description }}
+						    </div>
+						    <div class="cardFooter">
+						        <div class="cardNumber" style="color:blue"> {{ carte.cout }} </div>
+						        <div class="cardNumber" style="color:red"> {{ carte.attaque }} </div>
+						    </div>
+						</div>
+					</td>
+				</tr>
+	            <tr>
+	                <th>Créateur : </th>
+	                <td>{{ carte.createur.getpseudo() }}</td>
+	            </tr>
+	        </tbody>
+	    </table>
+
+	    <a href="{{ path('carte_index') }}">Retour à la liste</a>
+	    <a href="{{ path('carte_edit', {'id': carte.id}) }}">Modifier la carte</a>
+	    {{ include('carte/_delete_form.html.twig') }}
+	{% endif %}
+
+	{% if faction is defined %}
+		<table class="table">
+	        <tbody>
+	            <tr>
+	                <th>Titre : </th>
+	                <td>{{ faction.titre }}</td>
+	            </tr>
+	            <tr>
+	                <th>Description : </th>
+	                <td>{{ faction.description }}</td>
+	            </tr>
+	        </tbody>
+	    </table>
+
+	    <a href="{{ path('faction_index') }}">Retour à la liste</a>
+	    <a href="{{ path('faction_edit', {'id': faction.id}) }}">Modifier la faction</a>
+	    {{ include('faction/_delete_form.html.twig') }}
+	{% endif %}
+
+	{% if type is defined %}
+
+		<table class="table">
+	        <tbody>
+	            <tr>
+	                <th>Titre : </th>
+	                <td>{{ type.titre }}</td>
+	            </tr>
+	            <tr>
+	                <th>Description : </th>
+	                <td>{{ type.description }}</td>
+	            </tr>
+	        </tbody>
+	    </table>
+
+	    <a href="{{ path('type_index') }}">Retour à la liste</a>
+	    <a href="{{ path('type_edit', {'id': type.id}) }}">Modifier le type</a>
+	    {{ include('type/_delete_form.html.twig') }}
+	{% endif %}
+
+	{% if deck is defined %}
+
+		<table class="table">
+	        <tbody>
+	            <tr>
+	                <th>Nom du deck : </th>
+	                <td>{{ deck.titre }}</td>
+	            </tr>
+				{% for cartes in ListeCarteDeck %}
+					{% for i in 1..cartes.nombre %}
+						<div class="card">
+						    <div class="cardHeader">
+						        <div class="cardNumber" style="color:grey"> {{ cartes.carte.armure }} </div>
+						        <div class="cardTitle"> {{ cartes.carte.titre }} </div>
+						    </div>
+						    <div class="cardImage" style="
+						    	background-image:url('{{ asset('uploads/cartes/'~cartes.carte.image) }}');
+						    "></div>
+						    <div class="cardDescription">
+						    	{{ cartes.carte.description }}
+						    </div>
+						    <div class="cardFooter">
+						        <div class="cardNumber" style="color:green"> {{ cartes.carte.PV }} </div>
+						        <div class="cardNumber" style="color:blue"> {{ cartes.carte.cout }} </div>
+						        <div class="cardNumber" style="color:red"> {{ cartes.carte.attaque }} </div>
+						    </div>
+						</div>
+		            {% endfor %}
+	            {% endfor %}
+	        </tbody>
+	    </table>
+
+	    <a href="{{ path('deck_index') }}">Retour à la liste</a>
+	    <a href="{{ path('deck_edit', {'id': deck.id}) }}">Modifier le deck</a>
+	    {{ include('deck/_delete_form.html.twig') }}
+
+	{% endif %}
+
+{% endblock %}

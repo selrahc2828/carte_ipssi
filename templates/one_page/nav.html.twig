@@ -1,0 +1,125 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link parcour" href="{{ path('carte_new') }}">Ajouter une carte</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link parcour" href="{{ path('carte_index') }}">Liste des cartes</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link parcour" href="{{ path('faction_new') }}">Ajouter une faction</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link parcour" href="{{ path('faction_index') }}">Liste des factions</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link parcour" href="{{ path('type_new') }}">Ajouter un type</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link parcour" href="{{ path('type_index') }}">Liste des types</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link parcour" href="{{ path('deck_new') }}">Créer un deck</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link parcour" href="{{ path('deck_index') }}">Liste des decks</a>
+            </li>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+                </li>
+            {% else %}
+                <li class="nav-item active">  
+                    <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ path('app_register') }}">S'inscrire</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+{% block javascripts %}
+
+    <script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('.parcour').click(function (e) {
+            e.preventDefault();
+            $('.parcour').removeClass('select');
+            $(this).addClass('select');
+            $("#page_accueil").load($(this).attr('href'));
+        });
+
+        $('#page_accueil').on('click','a', function (e) {
+            e.preventDefault();
+            //$(".loading").css('visibility','visible');
+            console.log('dans click a');
+            $("#page_accueil").load($(this).attr('href'));
+        });
+        
+        $('#page_accueil').on('submit', 'form', function (e) {
+            e.preventDefault();
+            var form = $(this);
+
+            $.ajax({
+                type: "POST",
+                url: form.attr('action'),
+                data: new FormData(this),
+                contentType: false,
+                processData: false,
+                success: function success(response) {
+                    $("#page_accueil").load($('.select').attr('href'));
+                }
+            })
+        })
+
+        $('#page_accueil').on('click', '#clickCarte .card', function () {
+            let carteID = $(this).find('.carteID').val();
+            let deckID = $(this).find('.deckID').val();
+            console.log('dans ajouter id carte : '+carteID+', id deck :'+ deckID);
+
+            $.ajax({
+                type: "GET",
+                url:"/ajoutDeck/"+carteID+"/"+deckID,
+                success: function success(response) {
+                    $("#page_accueil").load("deck/"+deckID+"/edit");
+                }
+            })
+        })
+
+        $('#page_accueil').on('click', '#clickDeck .card', function () {
+            let carteID = $(this).find('.carteID').val();
+            let deckID = $(this).find('.deckID').val();
+            console.log('dans enlever id carte : '+carteID+', id deck :'+ deckID);
+
+            $.ajax({
+                type: "GET",
+                url:"/enleverDuDeck/"+carteID+"/"+deckID,
+                success: function success(response) {
+                    $("#page_accueil").load("deck/"+deckID+"/edit");
+                }
+            })
+        })
+
+        $('#page_accueil').on('click', '#clickAffichageCarte .card', function () {
+            let carteID = $(this).find('.carteID').val();
+            console.log('dans voir carte : '+carteID);
+
+            $.ajax({
+                type: "GET",
+                url:"/carte/"+carteID,
+                success: function success(response) {
+                    $("#page_accueil").load("carte/"+carteID);
+                }
+            })
+        })
+    });
+
+    </script>
+
+{% endblock %}
