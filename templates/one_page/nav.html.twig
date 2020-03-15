@@ -3,29 +3,41 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="{{ path('carte_new') }}">Ajouter une carte</a>
+                <a class="nav-link parcour" href="{{ path('carte_new') }}">Ajouter une carte</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="{{ path('carte_index') }}">Liste des cartes</a>
+                <a class="nav-link parcour" href="{{ path('carte_index') }}">Liste des cartes</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="{{ path('faction_new') }}">Ajouter une faction</a>
+                <a class="nav-link parcour" href="{{ path('faction_new') }}">Ajouter une faction</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="{{ path('faction_index') }}">Liste des factions</a>
+                <a class="nav-link parcour" href="{{ path('faction_index') }}">Liste des factions</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="{{ path('type_new') }}">Ajouter un type</a>
+                <a class="nav-link parcour" href="{{ path('type_new') }}">Ajouter un type</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="{{ path('type_index') }}">Liste des types</a>
+                <a class="nav-link parcour" href="{{ path('type_index') }}">Liste des types</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="{{ path('deck_new') }}">Créer un deck</a>
+                <a class="nav-link parcour" href="{{ path('deck_new') }}">Créer un deck</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="{{ path('deck_index') }}">Liste des decks</a>
+                <a class="nav-link parcour" href="{{ path('deck_index') }}">Liste des decks</a>
             </li>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+                </li>
+            {% else %}
+                <li class="nav-item active">  
+                    <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ path('app_register') }}">S'inscrire</a>
+                </li>
+            {% endif %}
         </ul>
     </div>
 </nav>
@@ -36,9 +48,9 @@
 
     $(document).ready(function () {
 
-        $('.nav-link').click(function (e) {
+        $('.parcour').click(function (e) {
             e.preventDefault();
-            $('.nav-link').removeClass('select');
+            $('.parcour').removeClass('select');
             $(this).addClass('select');
             $("#page_accueil").load($(this).attr('href'));
         });

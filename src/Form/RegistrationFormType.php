@@ -4,7 +4,7 @@ namespace App\Form;
 
 use App\Entity\Utilisateur;
 use Symfony\Component\Form\{AbstractType, FormBuilderInterface};
-use Symfony\Component\Form\Extension\Core\Type\{CheckboxType,PasswordType, RepeatedType, TextType, EmailType};
+use Symfony\Component\Form\Extension\Core\Type\{CheckboxType,PasswordType, RepeatedType, SubmitType, TextType, EmailType};
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\{IsTrue, Length, NotBlank};
 
@@ -18,13 +18,15 @@ class RegistrationFormType extends AbstractType
             ->add('password', PasswordType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
+                'label' => "Mot de passe : ",
                 'mapped' => false,
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Saisir un Mot de passe',
                     ]),
                 ],
             ])
+            ->add("register", SubmitType::class, ['label' => "S'inscrire"])
            /* ->add('password', RepeatedType::class, ['type' =>PasswordType::class,
                 'first_options' => [
                     // instead of being set onto the object directly,
