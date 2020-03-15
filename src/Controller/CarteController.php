@@ -8,6 +8,7 @@ use App\Repository\CarteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{Request ,Response};
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * @Route("/carte")
@@ -37,6 +38,12 @@ class CarteController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $image = $form->get("image")->getData();
+            $date = new \DateTime();
+            $nom_image = "carte_".$date->format('Y-m-d-H-i-s').".".$image->guessExtension();
+            $image->move($this->getParameter('dossier_carte'), $nom_image);
+            $carte->setImage($nom_image);
+
             $carte->setCreateur($this->getUser());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($carte);

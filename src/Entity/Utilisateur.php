@@ -38,7 +38,7 @@ class Utilisateur implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Carte", mappedBy="Createur")
+     * @ORM\OneToMany(targetEntity="App\Entity\Carte", mappedBy="createur")
      */
     private $cartes;
 
@@ -47,10 +47,16 @@ class Utilisateur implements UserInterface
      */
     private $pseudo;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Deck", mappedBy="createur", orphanRemoval=true)
+     */
+    private $decks;
+
     public function __construct()
     {
         $this->roles = ['ROLE_USER'];
         $this->cartes = new ArrayCollection();
+        $this->decks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -170,6 +176,37 @@ class Utilisateur implements UserInterface
     public function setPseudo(string $pseudo): self
     {
         $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Deck[]
+     */
+    public function getDecks(): Collection
+    {
+        return $this->decks;
+    }
+
+    public function addDeck(Deck $deck): self
+    {
+        if (!$this->decks->contains($deck)) {
+            $this->decks[] = $deck;
+            $deck->setCreateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeck(Deck $deck): self
+    {
+        if ($this->decks->contains($deck)) {
+            $this->decks->removeElement($deck);
+            // set the owning side to null (unless already changed)
+            if ($deck->getCreateur() === $this) {
+                $deck->setCreateur(null);
+            }
+        }
 
         return $this;
     }

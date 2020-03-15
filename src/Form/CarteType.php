@@ -2,14 +2,12 @@
 
 namespace App\Form;
 
-use App\Entity\Carte;
-use App\Entity\Faction;
-use App\Entity\Utilisateur;
-use App\Entity\Type;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
+use App\Entity\{Carte, Faction, Utilisateur, Type};
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\{AbstractType, FormBuilderInterface};
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class CarteType extends AbstractType
 {
@@ -21,6 +19,7 @@ class CarteType extends AbstractType
             ->add('PV')
             ->add('armure')
             ->add('attaque')
+            ->add('cout')
             /*->add('createur', EntityType::class, [
                 'class' => Utilisateur::class,
                 'choice_label' => function(Utilisateur $createur) {
@@ -38,6 +37,16 @@ class CarteType extends AbstractType
                 'choice_label' => function(Faction $faction) {
                     return $faction->getTitre();
                 },
+            ])
+            ->add('image', FileType::class,[
+                'label' => 'Image de la carte : ',
+                'data_class' => null,
+                "constraints" => [
+                    new File([
+                        "mimeTypes" => "image/*",
+                        'mimeTypesMessage' => "Merci de fournir une image :p",
+                    ])
+                ]
             ])
         ;
     }

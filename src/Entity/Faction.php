@@ -29,7 +29,7 @@ class Faction
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Carte", mappedBy="Faction")
+     * @ORM\OneToMany(targetEntity="App\Entity\Carte", mappedBy="faction")
      */
     private $cartes;
 

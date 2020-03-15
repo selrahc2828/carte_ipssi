@@ -29,7 +29,7 @@ class Type
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Carte", mappedBy="Type")
+     * @ORM\OneToMany(targetEntity="App\Entity\Carte", mappedBy="type")
      */
     private $cartes;
 

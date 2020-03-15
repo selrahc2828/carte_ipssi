@@ -4,21 +4,18 @@
 
 	{% if form is defined %}
 		<h1>{{ titre }}</h1>
-		{{ form_start(form) }}
+			{{ form_start(form, 
+				{
+					'action': path(app.request.attributes.get('_route'),app.request.attributes.get('_route_params')), 
+					'method': 'POST', 'enctype':'multipart/form-data'
+				}
+			) }}
+			{# 'enctype':'multipart/form-data'=> capable de prendre fichier binary#}			
 			{{ form_widget(form) }}
     		<button class="btn">
     			{{ button_label|default('Save') }}
     		</button>
 		{{ form_end(form) }}
-		{% if carte is defined %}
-			<a href="{{ path('carte_index') }}">Retour à la liste</a>
-		{% endif %}
-		{% if faction is defined %}
-			<a href="{{ path('faction_index') }}">Retour à la liste</a>
-		{% endif %}
-		{% if type is defined %}
-			<a href="{{ path('type_index') }}">Retour à la liste</a>
-		{% endif %}
 	{% endif %}
 
 {% endblock %}

@@ -1,15 +1,7 @@
-
-<nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="navbar-brand nav-link" href="{{ path('accueil') }}">Accueil</a>
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="{{ path('app_register') }}">S'inscrire</a>
-            </li>
             <li class="nav-item active">
                 <a class="nav-link" href="{{ path('carte_new') }}">Ajouter une carte</a>
             </li>
@@ -28,11 +20,15 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{{ path('type_index') }}">Liste des types</a>
             </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('deck_new') }}">Créer un deck</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ path('deck_index') }}">Liste des decks</a>
+            </li>
         </ul>
     </div>
 </nav>
-
-<div id="pageContent"></div>
 
 {% block javascripts %}
 
@@ -44,13 +40,19 @@
             e.preventDefault();
             $('.nav-link').removeClass('select');
             $(this).addClass('select');
-            $("#pageContent").load($(this).attr('href'));
+            $("#page_accueil").load($(this).attr('href'));
         });
 
-        $('#pageContent').on('submit', 'form', function (e) {
+        $('#page_accueil').on('click','a', function (e) {
+            e.preventDefault();
+            //$(".loading").css('visibility','visible');
+            console.log('dans click a');
+            $("#page_accueil").load($(this).attr('href'));
+        });
+        
+        $('#page_accueil').on('submit', 'form', function (e) {
             e.preventDefault();
             var form = $(this);
-
 
             $.ajax({
                 type: "POST",
@@ -59,7 +61,48 @@
                 contentType: false,
                 processData: false,
                 success: function success(response) {
-                    $("#pageContent").load($('.select').attr('href'));
+                    $("#page_accueil").load($('.select').attr('href'));
+                }
+            })
+        })
+
+        $('#page_accueil').on('click', '#clickCarte .card', function () {
+            let carteID = $(this).find('.carteID').val();
+            let deckID = $(this).find('.deckID').val();
+            console.log('dans ajouter id carte : '+carteID+', id deck :'+ deckID);
+
+            $.ajax({
+                type: "GET",
+                url:"/ajoutDeck/"+carteID+"/"+deckID,
+                success: function success(response) {
+                    $("#page_accueil").load("deck/"+deckID+"/edit");
+                }
+            })
+        })
+
+        $('#page_accueil').on('click', '#clickDeck .card', function () {
+            let carteID = $(this).find('.carteID').val();
+            let deckID = $(this).find('.deckID').val();
+            console.log('dans enlever id carte : '+carteID+', id deck :'+ deckID);
+
+            $.ajax({
+                type: "GET",
+                url:"/enleverDuDeck/"+carteID+"/"+deckID,
+                success: function success(response) {
+                    $("#page_accueil").load("deck/"+deckID+"/edit");
+                }
+            })
+        })
+
+        $('#page_accueil').on('click', '#clickAffichageCarte .card', function () {
+            let carteID = $(this).find('.carteID').val();
+            console.log('dans voir carte : '+carteID);
+
+            $.ajax({
+                type: "GET",
+                url:"/carte/"+carteID,
+                success: function success(response) {
+                    $("#page_accueil").load("carte/"+carteID);
                 }
             })
         })
